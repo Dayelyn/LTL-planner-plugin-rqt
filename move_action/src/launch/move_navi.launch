@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launch>
+
+<!-- move_action package navigates robot without Rviz and plan the robot path with LTL planner -->
+
+	<node name="task_publisher" pkg="move_action" type="task_publisher.py" respawn="true"/>
+	<node name="next_move_planner_server" pkg="move_action" type="plan_service.py" respawn="true"/>
+	<node name="move_base_action_server" pkg="move_action" type="move_action_service.py" respawn="true"/>
+<!--
+	<node name="action_client" pkg="move_action" type="state_publisher.py" respawn="false"/>
+-->
+
+</launch>

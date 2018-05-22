@@ -1,0 +1,32 @@
+'M1':
+    'props': ['d']
+    'position': [3.5, 11.5]
+    'edges':
+    - {'target': 'M1', 'cost': 0}
+    - {'target': 'M2', 'cost': 1}
+    - {'target': 'M4', 'cost': 2}
+'M2':
+    'props': []
+    'position': [2.0, 6.0]
+    'edges':
+    - {'target': 'M2', 'cost': 0}
+    - {'target': 'M1', 'cost': 1}
+    - {'target': 'M4', 'cost': 2}
+    - {'target': 'M5', 'cost': 3}
+'M3':
+    'props': ['p1', 'p2']
+    'position': [4.0, 1.5]
+    'edges':
+    - {'target': 'M3', 'cost': 0}
+    - {'target': 'M5', 'cost': 2}
+'M4':
+    'props': []
+    'position': [8.0, 6.0]
+    'edges':
+    - {'target': 'M4', 'cost': 0}
+    - {'target': 'M1', 'cost': 2}
+    - {'target': 'M2', 'cost': 2}
+    - {'target': 'M5', 'cost': 2}
+    - {'target': 'M6', 'cost': 1}
+    - {'target': 'M8', 'cost': 2}
+

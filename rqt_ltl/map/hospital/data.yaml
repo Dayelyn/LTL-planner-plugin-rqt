@@ -1,0 +1,533 @@
+action: {}
+ap: !!set
+  r1: null
+  r10: null
+  r11: null
+  r12: null
+  r2: null
+  r3: null
+  r4: null
+  r5: null
+  r6: null
+  r7: null
+  r8: null
+  r9: null
+drawing:
+  r1:
+  - 3.0
+  - 1.8
+  r10:
+  - 27.1
+  - 8.5
+  r11:
+  - 20.0
+  - 0.9
+  r12:
+  - 25.9
+  - 3.5
+  r2:
+  - 16.4
+  - 3.9
+  r3:
+  - 12.0
+  - 4.2
+  r4:
+  - 2.5
+  - 6.9
+  r5:
+  - 7.5
+  - 6.7
+  r6:
+  - 9.8
+  - 0.9
+  r7:
+  - 14.3
+  - 10.9
+  r8:
+  - 14.2
+  - 7.0
+  r9:
+  - 19.9
+  - 6.8
+edges:
+- !!python/tuple
+  - &id092 !!python/tuple
+    - 27.1
+    - 8.5
+    - 0.322
+  - &id002 !!python/tuple
+    - 19.9
+    - 6.8
+    - -0.057
+- !!python/tuple
+  - &id001 !!python/tuple
+    - 20.0
+    - 0.9
+    - 3.128
+  - &id094 !!python/tuple
+    - 16.4
+    - 3.9
+    - -1.623
+- !!python/tuple
+  - *id001
+  - *id002
+- !!python/tuple
+  - &id093 !!python/tuple
+    - 25.9
+    - 3.5
+    - 0.011
+  - *id001
+- !!python/tuple
+  - &id003 !!python/tuple
+    - 2.5
+    - 6.9
+    - -0.0
+  - &id005 !!python/tuple
+    - 3.0
+    - 1.8
+    - -0.0
+- !!python/tuple
+  - *id003
+  - &id004 !!python/tuple
+    - 7.5
+    - 6.7
+    - 0.025
+- !!python/tuple
+  - *id004
+  - *id005
+- !!python/tuple
+  - *id004
+  - &id006 !!python/tuple
+    - 9.8
+    - 0.9
+    - 0.077
+- !!python/tuple
+  - *id004
+  - &id007 !!python/tuple
+    - 14.2
+    - 7.0
+    - -0.022
+- !!python/tuple
+  - *id006
+  - *id005
+- !!python/tuple
+  - *id006
+  - &id095 !!python/tuple
+    - 12.0
+    - 4.2
+    - -1.521
+- !!python/tuple
+  - &id008 !!python/tuple
+    - 14.3
+    - 10.9
+    - -1.531
+  - *id007
+- !!python/tuple
+  - *id008
+  - *id002
+- !!python/tuple
+  - *id007
+  - *id002
+fGraph: !!python/object:networkx.classes.graph.Graph
+  adj: &id075
+    r1:
+      r10: &id009 {}
+      r11: &id010 {}
+      r12: &id012 {}
+      r2: &id015 {}
+      r3: &id019 {}
+      r4: &id024 {}
+      r5: &id030 {}
+      r6: &id037 {}
+      r7: &id045 {}
+      r8: &id054 {}
+      r9: &id064 {}
+    r10:
+      r1: *id009
+      r11: &id011 {}
+      r12: &id013 {}
+      r2: &id016 {}
+      r3: &id020 {}
+      r4: &id025 {}
+      r5: &id031 {}
+      r6: &id038 {}
+      r7: &id046 {}
+      r8: &id055 {}
+      r9: &id065 {}
+    r11:
+      r1: *id010
+      r10: *id011
+      r12: &id014 {}
+      r2: &id017 {}
+      r3: &id021 {}
+      r4: &id026 {}
+      r5: &id032 {}
+      r6: &id039 {}
+      r7: &id047 {}
+      r8: &id056 {}
+      r9: &id066 {}
+    r12:
+      r1: *id012
+      r10: *id013
+      r11: *id014
+      r2: &id018 {}
+      r3: &id022 {}
+      r4: &id027 {}
+      r5: &id033 {}
+      r6: &id040 {}
+      r7: &id048 {}
+      r8: &id057 {}
+      r9: &id067 {}
+    r2:
+      r1: *id015
+      r10: *id016
+      r11: *id017
+      r12: *id018
+      r3: &id023 {}
+      r4: &id028 {}
+      r5: &id034 {}
+      r6: &id041 {}
+      r7: &id049 {}
+      r8: &id058 {}
+      r9: &id068 {}
+    r3:
+      r1: *id019
+      r10: *id020
+      r11: *id021
+      r12: *id022
+      r2: *id023
+      r4: &id029 {}
+      r5: &id035 {}
+      r6: &id042 {}
+      r7: &id050 {}
+      r8: &id059 {}
+      r9: &id069 {}
+    r4:
+      r1: *id024
+      r10: *id025
+      r11: *id026
+      r12: *id027
+      r2: *id028
+      r3: *id029
+      r5: &id036 {}
+      r6: &id043 {}
+      r7: &id051 {}
+      r8: &id060 {}
+      r9: &id070 {}
+    r5:
+      r1: *id030
+      r10: *id031
+      r11: *id032
+      r12: *id033
+      r2: *id034
+      r3: *id035
+      r4: *id036
+      r6: &id044 {}
+      r7: &id052 {}
+      r8: &id061 {}
+      r9: &id071 {}
+    r6:
+      r1: *id037
+      r10: *id038
+      r11: *id039
+      r12: *id040
+      r2: *id041
+      r3: *id042
+      r4: *id043
+      r5: *id044
+      r7: &id053 {}
+      r8: &id062 {}
+      r9: &id072 {}
+    r7:
+      r1: *id045
+      r10: *id046
+      r11: *id047
+      r12: *id048
+      r2: *id049
+      r3: *id050
+      r4: *id051
+      r5: *id052
+      r6: *id053
+      r8: &id063 {}
+      r9: &id073 {}
+    r8:
+      r1: *id054
+      r10: *id055
+      r11: *id056
+      r12: *id057
+      r2: *id058
+      r3: *id059
+      r4: *id060
+      r5: *id061
+      r6: *id062
+      r7: *id063
+      r9: &id074 {}
+    r9:
+      r1: *id064
+      r10: *id065
+      r11: *id066
+      r12: *id067
+      r2: *id068
+      r3: *id069
+      r4: *id070
+      r5: *id071
+      r6: *id072
+      r7: *id073
+      r8: *id074
+  adjlist_dict_factory: &id076 !!python/name:__builtin__.dict ''
+  edge: *id075
+  edge_attr_dict_factory: *id076
+  graph:
+    name: complete_graph(12)
+  node:
+    r1: {}
+    r10: {}
+    r11: {}
+    r12: {}
+    r2: {}
+    r3: {}
+    r4: {}
+    r5: {}
+    r6: {}
+    r7: {}
+    r8: {}
+    r9: {}
+  node_dict_factory: *id076
+graph: !!python/object:networkx.classes.graph.Graph
+  adj: &id091
+    r1:
+      r4: &id079 {}
+      r5: &id080 {}
+      r6: &id082 {}
+    r10:
+      r9: &id087 {}
+    r11:
+      r12: &id077 {}
+      r2: &id078 {}
+      r9: &id088 {}
+    r12:
+      r11: *id077
+    r2:
+      r11: *id078
+    r3:
+      r6: &id083 {}
+    r4:
+      r1: *id079
+      r5: &id081 {}
+    r5:
+      r1: *id080
+      r4: *id081
+      r6: &id084 {}
+      r8: &id085 {}
+    r6:
+      r1: *id082
+      r3: *id083
+      r5: *id084
+    r7:
+      r8: &id086 {}
+      r9: &id089 {}
+    r8:
+      r5: *id085
+      r7: *id086
+      r9: &id090 {}
+    r9:
+      r10: *id087
+      r11: *id088
+      r7: *id089
+      r8: *id090
+  adjlist_dict_factory: *id076
+  edge: *id091
+  edge_attr_dict_factory: *id076
+  graph: {}
+  node:
+    r1: {}
+    r10: {}
+    r11: {}
+    r12: {}
+    r2: {}
+    r3: {}
+    r4: {}
+    r5: {}
+    r6: {}
+    r7: {}
+    r8: {}
+    r9: {}
+  node_dict_factory: *id076
+mapEdges:
+- r4<----------->r5
+- r4<----------->r1
+- r5<----------->r6
+- r5<----------->r8
+- r5<----------->r1
+- r6<----------->r1
+- r6<----------->r3
+- r7<----------->r8
+- r7<----------->r9
+- r12<----------->r11
+- r10<----------->r9
+- r11<----------->r9
+- r11<----------->r2
+- r8<----------->r9
+mapNodes:
+- r1:(3.0, 1.8), yaw=-0.0
+- r2:(16.4, 3.9), yaw=-1.623
+- r3:(12.0, 4.2), yaw=-1.521
+- r4:(2.5, 6.9), yaw=-0.0
+- r5:(7.5, 6.7), yaw=0.025
+- r6:(9.8, 0.9), yaw=0.077
+- r7:(14.3, 10.9), yaw=-1.531
+- r8:(14.2, 7.0), yaw=-0.022
+- r9:(19.9, 6.8), yaw=-0.057
+- r10:(27.1, 8.5), yaw=0.322
+- r11:(20.0, 0.9), yaw=3.128
+- r12:(25.9, 3.5), yaw=0.011
+mapPos:
+- !!python/tuple
+  - 3.0
+  - 1.8
+- !!python/tuple
+  - 16.4
+  - 3.9
+- !!python/tuple
+  - 12.0
+  - 4.2
+- !!python/tuple
+  - 2.5
+  - 6.9
+- !!python/tuple
+  - 7.5
+  - 6.7
+- !!python/tuple
+  - 9.8
+  - 0.9
+- !!python/tuple
+  - 14.3
+  - 10.9
+- !!python/tuple
+  - 14.2
+  - 7.0
+- !!python/tuple
+  - 19.9
+  - 6.8
+- !!python/tuple
+  - 27.1
+  - 8.5
+- !!python/tuple
+  - 20.0
+  - 0.9
+- !!python/tuple
+  - 25.9
+  - 3.5
+mapProReverse:
+  r1: *id005
+  r10: *id092
+  r11: *id001
+  r12: *id093
+  r2: *id094
+  r3: *id095
+  r4: *id003
+  r5: *id004
+  r6: *id006
+  r7: *id008
+  r8: *id007
+  r9: *id002
+mapProperty: !!python/object/apply:collections.OrderedDict
+- - - *id005
+    - &id097 !!set
+      r1: null
+  - - *id094
+    - &id103 !!set
+      r2: null
+  - - *id095
+    - &id100 !!set
+      r3: null
+  - - *id003
+    - &id096 !!set
+      r4: null
+  - - *id004
+    - &id098 !!set
+      r5: null
+  - - *id006
+    - &id099 !!set
+      r6: null
+  - - *id008
+    - &id102 !!set
+      r7: null
+  - - *id007
+    - &id101 !!set
+      r8: null
+  - - *id002
+    - &id104 !!set
+      r9: null
+  - - *id092
+    - &id107 !!set
+      r10: null
+  - - *id001
+    - &id105 !!set
+      r11: null
+  - - *id093
+    - &id106 !!set
+      r12: null
+markAngle:
+- -0.0
+- -1.623
+- -1.521
+- -0.0
+- 0.025
+- 0.077
+- -1.531
+- -0.022
+- -0.057
+- 0.322
+- 3.128
+- 0.011
+markPos:
+- !!python/tuple
+  - 149.75247524752476
+  - 558.1683168316831
+- !!python/tuple
+  - 821.7821782178218
+  - 454.2079207920792
+- !!python/tuple
+  - 601.4851485148515
+  - 438.1188118811881
+- !!python/tuple
+  - 123.76237623762376
+  - 304.45544554455444
+- !!python/tuple
+  - 375.0
+  - 315.5940594059406
+- !!python/tuple
+  - 490.0990099009901
+  - 605.1980198019802
+- !!python/tuple
+  - 714.1089108910891
+  - 103.96039603960396
+- !!python/tuple
+  - 710.3960396039604
+  - 301.980198019802
+- !!python/tuple
+  - 996.2871287128713
+  - 310.64356435643566
+- !!python/tuple
+  - 1353.960396039604
+  - 225.24752475247524
+- !!python/tuple
+  - 998.7623762376237
+  - 603.960396039604
+- !!python/tuple
+  - 1297.029702970297
+  - 474.009900990099
+regions:
+  *id003: *id096
+  *id005: *id097
+  *id004: *id098
+  *id006: *id099
+  *id095: *id100
+  *id007: *id101
+  *id008: *id102
+  *id094: *id103
+  *id002: *id104
+  *id001: *id105
+  *id093: *id106
+  *id092: *id107

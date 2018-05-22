@@ -1,0 +1,25 @@
+<library path="src">
+  <class name="rqt_ltl" type="rqt_ltl.ltl_plugin.LTLPlugin" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      The rqt_ltl package provides a GUI plugin to display LTL plan and navigation on the known map.
+    </description>
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</label>
+      </group>
+      <group>
+        <label>Subgroup</label>
+      </group>
+      -->
+      <group>
+        <label>LTL</label>
+        <icon type="theme">folder</icon>
+	<statustip>Plugins related to Linear Temoral Logic debugging.</statustip>
+      </group>
+      <label>LTL debugger</label>
+      <icon type="theme">system-help</icon>
+      <statustip>LTL planning and navigation debugging.</statustip>
+    </qtgui>
+  </class>
+</library>

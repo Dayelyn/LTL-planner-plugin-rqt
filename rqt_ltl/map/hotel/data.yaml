@@ -1,0 +1,343 @@
+action: {}
+ap: !!set
+  r1: null
+  r10: null
+  r11: null
+  r12: null
+  r13: null
+  r14: null
+  r2: null
+  r3: null
+  r4: null
+  r5: null
+  r6: null
+  r7: null
+  r8: null
+  r9: null
+drawing:
+  r1:
+  - 1.9
+  - 1.5
+  r2:
+  - 19.0
+  - 4.6
+  r3:
+  - 13.1
+  - 1.6
+  r4:
+  - 1.7
+  - 5.1
+  r5:
+  - 8.2
+  - 2.0
+  r6:
+  - 6.1
+  - 6.9
+  r7:
+  - 10.9
+  - 4.4
+  r8:
+  - 14.0
+  - 7.0
+edges:
+- !!python/tuple
+  - &id049 !!python/tuple
+    - 19.0
+    - 4.6
+    - 3.105
+  - &id006 !!python/tuple
+    - 14.0
+    - 7.0
+    - -0.071
+- !!python/tuple
+  - &id001 !!python/tuple
+    - 1.7
+    - 5.1
+    - 1.508
+  - &id002 !!python/tuple
+    - 1.9
+    - 1.5
+    - 1.595
+- !!python/tuple
+  - *id001
+  - &id004 !!python/tuple
+    - 6.1
+    - 6.9
+    - 0.016
+- !!python/tuple
+  - &id003 !!python/tuple
+    - 8.2
+    - 2.0
+    - -0.007
+  - *id002
+- !!python/tuple
+  - *id003
+  - &id007 !!python/tuple
+    - 13.1
+    - 1.6
+    - 3.113
+- !!python/tuple
+  - *id003
+  - &id005 !!python/tuple
+    - 10.9
+    - 4.4
+    - -1.562
+- !!python/tuple
+  - *id004
+  - *id005
+- !!python/tuple
+  - *id004
+  - *id006
+- !!python/tuple
+  - *id005
+  - *id007
+- !!python/tuple
+  - *id005
+  - *id006
+fGraph: !!python/object:networkx.classes.graph.Graph
+  adj: &id036
+    r1:
+      r2: &id008 {}
+      r3: &id009 {}
+      r4: &id011 {}
+      r5: &id014 {}
+      r6: &id018 {}
+      r7: &id023 {}
+      r8: &id029 {}
+    r2:
+      r1: *id008
+      r3: &id010 {}
+      r4: &id012 {}
+      r5: &id015 {}
+      r6: &id019 {}
+      r7: &id024 {}
+      r8: &id030 {}
+    r3:
+      r1: *id009
+      r2: *id010
+      r4: &id013 {}
+      r5: &id016 {}
+      r6: &id020 {}
+      r7: &id025 {}
+      r8: &id031 {}
+    r4:
+      r1: *id011
+      r2: *id012
+      r3: *id013
+      r5: &id017 {}
+      r6: &id021 {}
+      r7: &id026 {}
+      r8: &id032 {}
+    r5:
+      r1: *id014
+      r2: *id015
+      r3: *id016
+      r4: *id017
+      r6: &id022 {}
+      r7: &id027 {}
+      r8: &id033 {}
+    r6:
+      r1: *id018
+      r2: *id019
+      r3: *id020
+      r4: *id021
+      r5: *id022
+      r7: &id028 {}
+      r8: &id034 {}
+    r7:
+      r1: *id023
+      r2: *id024
+      r3: *id025
+      r4: *id026
+      r5: *id027
+      r6: *id028
+      r8: &id035 {}
+    r8:
+      r1: *id029
+      r2: *id030
+      r3: *id031
+      r4: *id032
+      r5: *id033
+      r6: *id034
+      r7: *id035
+  adjlist_dict_factory: &id037 !!python/name:__builtin__.dict ''
+  edge: *id036
+  edge_attr_dict_factory: *id037
+  graph:
+    name: complete_graph(8)
+  node:
+    r1: {}
+    r2: {}
+    r3: {}
+    r4: {}
+    r5: {}
+    r6: {}
+    r7: {}
+    r8: {}
+  node_dict_factory: *id037
+graph: !!python/object:networkx.classes.graph.Graph
+  adj: &id048
+    r1:
+      r4: &id038 {}
+      r5: &id039 {}
+    r2:
+      r8: &id045 {}
+    r3:
+      r5: &id040 {}
+      r7: &id042 {}
+    r4:
+      r1: *id038
+      r6: &id041 {}
+    r5:
+      r1: *id039
+      r3: *id040
+      r7: &id043 {}
+    r6:
+      r4: *id041
+      r7: &id044 {}
+      r8: &id046 {}
+    r7:
+      r3: *id042
+      r5: *id043
+      r6: *id044
+      r8: &id047 {}
+    r8:
+      r2: *id045
+      r6: *id046
+      r7: *id047
+  adjlist_dict_factory: *id037
+  edge: *id048
+  edge_attr_dict_factory: *id037
+  graph: {}
+  node:
+    r1: {}
+    r2: {}
+    r3: {}
+    r4: {}
+    r5: {}
+    r6: {}
+    r7: {}
+    r8: {}
+  node_dict_factory: *id037
+mapEdges:
+- r4<----------->r6
+- r4<----------->r1
+- r5<----------->r7
+- r5<----------->r1
+- r5<----------->r3
+- r6<----------->r7
+- r6<----------->r8
+- r7<----------->r8
+- r7<----------->r3
+- r2<----------->r8
+mapNodes:
+- r1:(1.9, 1.5), yaw=1.595
+- r2:(19.0, 4.6), yaw=3.105
+- r3:(13.1, 1.6), yaw=3.113
+- r4:(1.7, 5.1), yaw=1.508
+- r5:(8.2, 2.0), yaw=-0.007
+- r6:(6.1, 6.9), yaw=0.016
+- r7:(10.9, 4.4), yaw=-1.562
+- r8:(14.0, 7.0), yaw=-0.071
+mapPos:
+- !!python/tuple
+  - 1.9
+  - 1.5
+- !!python/tuple
+  - 19.0
+  - 4.6
+- !!python/tuple
+  - 13.1
+  - 1.6
+- !!python/tuple
+  - 1.7
+  - 5.1
+- !!python/tuple
+  - 8.2
+  - 2.0
+- !!python/tuple
+  - 6.1
+  - 6.9
+- !!python/tuple
+  - 10.9
+  - 4.4
+- !!python/tuple
+  - 14.0
+  - 7.0
+mapProReverse:
+  r1: *id002
+  r2: *id049
+  r3: *id007
+  r4: *id001
+  r5: *id003
+  r6: *id004
+  r7: *id005
+  r8: *id006
+mapProperty: !!python/object/apply:collections.OrderedDict
+- - - *id002
+    - &id051 !!set
+      r1: null
+  - - *id049
+    - &id057 !!set
+      r2: null
+  - - *id007
+    - &id055 !!set
+      r3: null
+  - - *id001
+    - &id050 !!set
+      r4: null
+  - - *id003
+    - &id053 !!set
+      r5: null
+  - - *id004
+    - &id052 !!set
+      r6: null
+  - - *id005
+    - &id054 !!set
+      r7: null
+  - - *id006
+    - &id056 !!set
+      r8: null
+markAngle:
+- 1.595
+- 3.105
+- 3.113
+- 1.508
+- -0.007
+- 0.016
+- -1.562
+- -0.071
+markPos:
+- !!python/tuple
+  - 95.91326105087572
+  - 376.9808173477898
+- !!python/tuple
+  - 952.4603836530441
+  - 221.85154295246036
+- !!python/tuple
+  - 654.7122602168473
+  - 371.14261884904084
+- !!python/tuple
+  - 86.73894912427022
+  - 193.49457881567972
+- !!python/tuple
+  - 408.673894912427
+  - 350.2919099249374
+- !!python/tuple
+  - 305.254378648874
+  - 103.41951626355295
+- !!python/tuple
+  - 542.952460383653
+  - 231.85988323603
+- !!python/tuple
+  - 700.5838198498748
+  - 100.91743119266054
+regions:
+  *id001: *id050
+  *id002: *id051
+  *id004: *id052
+  *id003: *id053
+  *id005: *id054
+  *id007: *id055
+  *id006: *id056
+  *id049: *id057

@@ -1,0 +1,6 @@
+map_name: !!python/unicode 'gazebo'
+start_point: !!python/tuple
+- -2.0
+- 7.3
+- 2.529
+total_task: !!python/unicode '(<> (r1 && <>(r2 && <> r3))),'
