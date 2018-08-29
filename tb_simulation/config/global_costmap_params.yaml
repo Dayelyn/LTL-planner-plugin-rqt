@@ -1,0 +1,38 @@
+global_costmap:
+  update_frequency: 3.0
+  publish_frequency: 0.5
+  static_map: true
+  rolling_window: false
+  width: 5
+  height: 5
+  resolution: 0.02
+  transform_tolerance: 2.0
+
+  unknown_cost_value: 255
+
+  plugins:
+  - name: static_layer
+    type: costmap_2d::StaticLayer
+  - name: obstacle_layer
+    type: costmap_2d::ObstacleLayer
+  - name: inflation_layer
+    type: costmap_2d::InflationLayer
+
+  static_layer:
+    map_topic: /map
+
+  obstacle_layer:
+    observation_sources: scan
+    scan:
+      clearing: true
+      data_type: LaserScan
+      marking: true
+      topic: base_scan
+      inf_is_valid: true # range filter used to set inf as max_range
+    track_unknown_space: true
+    increase_raytrace_width: true
+
+
+  inflation_layer:
+    inflation_radius: 0.5
+    cost_scaling_factor: 10

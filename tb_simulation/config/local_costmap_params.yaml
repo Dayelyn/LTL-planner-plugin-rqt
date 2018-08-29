@@ -1,0 +1,32 @@
+local_costmap:
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: false
+  resolution: 0.02
+  rolling_window: true
+  width: 5.0
+  height: 5.0
+  transform_tolerance: 0.5
+
+  # elemtens of local costmap
+  plugins:
+  - name: obstacle_layer_laser
+    type: costmap_2d::ObstacleLayer
+  - name: inflation_layer
+    type: costmap_2d::InflationLayer
+  
+  obstacle_layer_laser:
+    observation_sources: scan
+    scan:
+      data_type: LaserScan
+      topic: base_scan
+      marking: true
+      clearing: true
+      inf_is_valid: true # pointcloud_to_laserscan uses inf as max range
+    clear_all_before_marking: false
+    increase_raytrace_width: true
+  
+  # common inflation layer
+  inflation_layer:
+    inflation_radius: 0.5
+    cost_scaling_factor: 3.5
