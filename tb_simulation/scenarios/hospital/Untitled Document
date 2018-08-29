@@ -1,0 +1,12 @@
+{'M4': {'position': [8.0, 6.0], 
+	'edges': [{'cost': 2, 'target': 'M1'}, {'cost': 2, 'target': 'M2'}, {'cost': 2, 'target': 'M3'}], 
+	'props': []}, 
+ 'M1': {'position': [3.5, 11.5], 
+	'edges': [{'cost': 1, 'target': 'M2'}, {'cost': 2, 'target': 'M4'}], 
+	'props': ['d']}, 
+ 'M3': {'position': [4.0, 1.5], 
+	'edges': [{'cost': 2, 'target': 'M4'}], 
+	'props': ['p1', 'p2']}, 
+ 'M2': {'position': [2.0, 6.0], 
+	'edges': [{'cost': 1, 'target': 'M1'}, {'cost': 2, 'target': 'M4'}], 
+	'props': []}}

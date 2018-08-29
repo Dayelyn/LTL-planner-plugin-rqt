@@ -1,0 +1,36 @@
+? !!python/tuple
+- 0
+- 1
+- 1
+: !!set
+  r4: null
+? !!python/tuple
+- 1
+- 0
+- 1
+: !!set
+  r2: null
+? !!python/tuple
+- 1
+- 1
+- 1
+: !!set
+  r5: null
+? !!python/tuple
+- 2
+- 0
+- 1
+: !!set
+  r3: null
+? !!python/tuple
+- 2
+- 1
+- 1
+: !!set
+  r6: null
+? !!python/tuple
+- 3
+- 1
+- 1
+: !!set
+  r1: null
