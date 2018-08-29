@@ -9,7 +9,7 @@ from std_msgs.msg import String
 
 def task_publisher(task_input):
     pub = rospy.Publisher('ltl_task', String, queue_size=10)
-    rospy.init_node('task_publisher', anonymous=True)
+    rospy.init_node('task_publisher', anonymous=False)
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         pub.publish(task_input)

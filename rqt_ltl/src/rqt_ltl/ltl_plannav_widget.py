@@ -1,13 +1,17 @@
 # Need to install PyYaml and libyaml to load and dump .yaml files
 import os
 import sys
+import pxssh
 
 import rospkg
+import rospy
 import roslaunch
+import actionlib_msgs.msg
 
 import yaml
 import ltl_mapviewer_widget
 import ltl_mapdefine_widget
+from plan_switch import urgent_task_execution, urgent_task_return
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import *
@@ -28,6 +32,9 @@ class LTLPlanNavWidget(QWidget):
         ui_file = os.path.join(self.rp.get_path('rqt_ltl'), 'resource', 'ltl_widget.ui')
         loadUi(ui_file, self)
 
+        self.s = pxssh.pxssh()
+        self.remote = None
+
         self.MapWidget = ltl_mapviewer_widget.MplWidget()
         self.MapDefineWidget = ltl_mapdefine_widget.MouseTracker()
         self._ui_init()
@@ -45,6 +52,8 @@ class LTLPlanNavWidget(QWidget):
         self.node = None
         self.launch = None
         self.process = None
+        self.publisher = None
+        self.temp_task = None
 
         # self.onlyDouble = QDoubleValidator()
         # self.ScaleInput.setValidator(self.onlyDouble)
@@ -58,6 +67,41 @@ class LTLPlanNavWidget(QWidget):
         self.MapButton.clicked.connect(self._map_define)
         self.StopButton.clicked.connect(self._stop_plan)
         self.NavButtion.clicked.connect(self._navigation)
+        self.UTaskExecuteButton.clicked.connect(self._urgent_task_execution)
+        self.UTaskReturnButton.clicked.connect(self._urgent_task_return)
+
+    def _urgent_task_execution(self):
+        if not self.UTaskInput.text():
+            sys.stdout = EmittingStream(textWritten=self.text_written)
+            print 'No urgent task needs to be planned.'
+            sys.stdout = sys.__stdout__
+            pass
+        else:
+            self._stop_plan()
+            try:
+                urgent_task_execution(self.UTaskInput.text())
+                rospy.set_param('u_task', self.UTaskInput.text())
+                rospy.set_param('o_task', self.TaskInputR1.text())
+                os.system('rosnode kill task_publisher')
+                # Respawn task_publisher to publisher changed task
+
+                self._navigation()
+            except IOError:
+                sys.stdout = EmittingStream(textWritten=self.text_written)
+                print 'Missing task.yaml.'
+                sys.stdout = sys.__stdout__
+
+    def _urgent_task_return(self):
+        self._stop_plan()
+        try:
+            urgent_task_return(self.TaskInputR1.text())
+            rospy.set_param('finish_task', 0)
+            os.system('rosnode kill task_publisher')
+            self._navigation()
+        except IOError:
+            sys.stdout = EmittingStream(textWritten=self.text_written)
+            print 'Missing task.yaml.'
+            sys.stdout = sys.__stdout__
 
     def _map_define(self):
         self.MapDefineWidget.scene.clear()
@@ -113,8 +157,9 @@ class LTLPlanNavWidget(QWidget):
     def _task_examples(self):
 
         task_exp = [
-            '(<> (r1 && <>(r2 && <> r3)))',
-            '(([]<> r3) && ([]<> r4))'
+            '(([]<> r2) && ([]<> r4))',
+            '(<> (r3 && <>r5))'
+            #'(<> (r1 && <>(r2 && <> r3)))'
         ]
 
         idx = self.PlanExample.currentIndex() - 1
@@ -143,13 +188,16 @@ class LTLPlanNavWidget(QWidget):
             # From values to key, use property instead of position coordinate
             pos_x = start_pos[0]
             pos_y = start_pos[1]
+            pos_z = start_pos[2]
             # Parse position coordinate
             arg_map = 'world:='+map_name
             arg_x = 'x:='+str(pos_x)
             arg_y = 'y:='+str(pos_y)
+            arg_z = 'z:=' + str(pos_z)
             sys.argv.append(arg_map)
             sys.argv.append(arg_x)
             sys.argv.append(arg_y)
+            sys.argv.append(arg_z)
             # Add parameter before roslaunch, since roslaunch api does not support parameter passing
             uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
             roslaunch.configure_logging(uuid)
@@ -158,6 +206,8 @@ class LTLPlanNavWidget(QWidget):
 
     def _plan_syn(self, map_name, ap, regions, edges, action, hard_task):
         self.PlanViewer.clear()
+
+        #self.s.login('12.0.5.2', 'ubuntu', 'ubuntu', original_prompt='$$S', port=22, auto_prompt_reset=True)
 
         if not (map_name and hard_task and self.InitPosInputR1.text()):
             if not map_name:
@@ -192,6 +242,9 @@ class LTLPlanNavWidget(QWidget):
             yaml.dump(data, stream, default_flow_style=False, allow_unicode=False)
 
     def _plan_exe(self):
+        #self.s.sendline('export TURTLEBOT_MAP_FILE=/home/ubuntu/test0528/testmap/test.yaml')
+        #self.s.sendline('roslaunch turtlebot_navigation amcl_demo.launch')
+        #Todo: add Rviz launch for visulization
         if self.launch is not None:
             self.launch.shutdown()
             self.launch = None
@@ -202,10 +255,19 @@ class LTLPlanNavWidget(QWidget):
         self.launch.start()
 
     def _stop_plan(self):
-        # self.process.stop()
-        self.launch.shutdown()
+        rospy.set_param('urgent_task', 1)
+        self.publisher = rospy.Publisher('/move_base/cancel', actionlib_msgs.msg.GoalID, queue_size=10)
+        self.publisher.publish(None, None)
+        # Cancel goals and move_base action
 
     def _navigation(self):
+        if self.publisher is not None:
+            self.publisher.unregister()
+            rospy.set_param('urgent_task', 0)
+        else:
+            self.publisher = rospy.Publisher('/move_base/cancel', actionlib_msgs.msg.GoalID, queue_size=10)
+            self.publisher.publish(None, None)
+            # Initialize move_base cancellation, otherwise stop button needs to be clicked twice.
 
         package = 'move_action'
         executable = 'state_publisher.py'
@@ -232,7 +294,7 @@ class LTLPlanNavWidget(QWidget):
         self.mapLayout.addWidget(self.MapWidget)
         self.MapWidget.show()
 
-        map_list = ('select a map', 'hotel', 'hospital', 'gazebo', 'pal_office')
+        map_list = ('select a map', 'hotel', 'hospital', 'gazebo', 'pal_office', 'testmap')
         for _map in map_list:
             self.MapSelection.addItem(_map)
 

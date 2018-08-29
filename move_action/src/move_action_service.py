@@ -8,7 +8,7 @@ from move_action.srv import NextMove, MoveAct, MoveActResponse
 # srv generate Response, need to be included
 
 
-def act_move_base_client(pose_input, index):
+def act_move_base_client(next_move):
     '''
     Action client of move_base. Send goal pose to MoveBaseAction to move the robot.
     :param pose_input: Pose sequence(list) from plan_service, Pose[](Point(x, y, z), Quaternion(x, y, z, w))
@@ -22,16 +22,21 @@ def act_move_base_client(pose_input, index):
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
-    goal.target_pose.pose = pose_input[index]
+    goal.target_pose.pose = next_move.pose
 
-    client.send_goal(goal)
+    flag = rospy.get_param('urgent_task')
+
+    if flag == 0:
+        client.send_goal(goal)
+    else:
+        client.cancel_goal()
+
     client.wait_for_result()
     # Follow the instruction on ROS wiki of simple action client
-
     return client.get_result()
 
 
-def srv_next_move_planner_client(pose_mode):
+def srv_next_move_planner_client(mode):
     '''
     The client of next_move_planner service(plan_service), request a planned pose sequence
     :param pose_mode: no special use
@@ -41,8 +46,8 @@ def srv_next_move_planner_client(pose_mode):
     try:
         rospy.wait_for_service('next_move_planner_service')
         pose_loader = rospy.ServiceProxy('next_move_planner_service', NextMove)
-        pose_list = pose_loader(pose_mode)
-        return pose_list.poses
+        next_move = pose_loader(mode)
+        return next_move
 
     except rospy.ServiceException:
         print "Service call failed"
@@ -53,25 +58,42 @@ def move_base_action(req):
     The function deals with the request of move_base_action_server()
     :param req: string status
     :return: info: string result
+             rest_goals: geometry_msgs/Pose[] rest_goals
     '''
 
     try:
-        pose_list = srv_next_move_planner_client(req.status)
+        next_move = srv_next_move_planner_client('PlanSynthesis')
         index = 0
+        first_move = True
 
         while not rospy.is_shutdown():
-
-            result = act_move_base_client(pose_list, index)
-
-            if result and (index <= len(pose_list) - 2):
-                # Here we need a shorter length of pose_list. It is defined in P_MAG_TS package
-                rospy.loginfo("Goal[%s] execution done!", index)
-                index = index + 1
-                # Move index to get pose value in pose sequence
+            result = act_move_base_client(next_move)
+            if first_move:
+                next_move = srv_next_move_planner_client('FirstMove')
+                first_move = False
             else:
-                info = "Navigation finished!"
-                rospy.loginfo(info)
-                return MoveActResponse(info)
+                if result:
+                    #index += 1
+                    #rospy.loginfo("Goal[%s] execution done!", index)
+                    current_move = next_move
+                    next_move = srv_next_move_planner_client('NextMove')
+                    print '@@@@@@@@@@'
+                    print next_move
+                    print '@@@@@@@@@@'
+                    print (next_move == current_move)
+
+                    if next_move == current_move:
+                        index +=1
+                    if index >=3:
+                        rospy.set_param('finish_task', 1)
+                        index = 0
+                        info = "Navigation finished!"
+                        rospy.loginfo(info)
+                        return MoveActResponse(info)
+                else:
+                    info = "Navigation interrupt!"
+                    rospy.loginfo(info)
+                    return MoveActResponse(info)
 
     except rospy.ROSInterruptException:
         rospy.loginfo("Navigation interrupted.")

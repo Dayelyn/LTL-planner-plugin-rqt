@@ -6,42 +6,42 @@ ap: !!set
   r4: null
 drawing:
   r1:
-  - 2.1
-  - 6.0
+  - -0.6
+  - 0.0
   r2:
-  - 11.1
-  - 4.2
+  - -3.5
+  - 1.4
   r3:
-  - 7.2
-  - 1.9
+  - -3.7
+  - -2.0
   r4:
-  - 14.4
-  - 4.4
+  - -0.7
+  - -3.1
 edges:
 - !!python/tuple
   - &id001 !!python/tuple
-    - 2.1
-    - 6.0
-    - 0.323
+    - -0.6
+    - 0.0
+    - 0.031
   - &id002 !!python/tuple
-    - 11.1
-    - 4.2
-    - -0.872
+    - -3.5
+    - 1.4
+    - 3.142
 - !!python/tuple
   - *id001
   - &id003 !!python/tuple
-    - 7.2
-    - 1.9
-    - -3.026
+    - -3.7
+    - -2.0
+    - -1.606
 - !!python/tuple
   - *id002
   - *id003
 - !!python/tuple
   - &id004 !!python/tuple
-    - 14.4
-    - 4.4
-    - 0.598
-  - *id002
+    - -0.7
+    - -3.1
+    - -1.548
+  - *id001
 - !!python/tuple
   - *id004
   - *id003
@@ -79,16 +79,16 @@ graph: !!python/object:networkx.classes.graph.Graph
     r1:
       r2: &id013 {}
       r3: &id014 {}
+      r4: &id016 {}
     r2:
       r1: *id013
       r3: &id015 {}
-      r4: &id016 {}
     r3:
       r1: *id014
       r2: *id015
       r4: &id017 {}
     r4:
-      r2: *id016
+      r1: *id016
       r3: *id017
   adjlist_dict_factory: *id012
   edge: *id018
@@ -101,29 +101,29 @@ graph: !!python/object:networkx.classes.graph.Graph
     r4: {}
   node_dict_factory: *id012
 mapEdges:
-- r4<----------->r2
+- r4<----------->r1
 - r4<----------->r3
 - r1<----------->r2
 - r1<----------->r3
 - r2<----------->r3
 mapNodes:
-- r1:(2.1, 6.0), yaw=0.323
-- r2:(11.1, 4.2), yaw=-0.872
-- r3:(7.2, 1.9), yaw=-3.026
-- r4:(14.4, 4.4), yaw=0.598
+- r1:(-0.6, 0.0), yaw=0.031
+- r2:(-3.5, 1.4), yaw=3.142
+- r3:(-3.7, -2.0), yaw=-1.606
+- r4:(-0.7, -3.1), yaw=-1.548
 mapPos:
 - !!python/tuple
-  - 2.1
-  - 6.0
+  - -0.6
+  - 0.0
 - !!python/tuple
-  - 11.1
-  - 4.2
+  - -3.5
+  - 1.4
 - !!python/tuple
-  - 7.2
-  - 1.9
+  - -3.7
+  - -2.0
 - !!python/tuple
-  - 14.4
-  - 4.4
+  - -0.7
+  - -3.1
 mapProReverse:
   r1: *id001
   r2: *id002
@@ -131,37 +131,37 @@ mapProReverse:
   r4: *id004
 mapProperty: !!python/object/apply:collections.OrderedDict
 - - - *id001
-    - &id019 !!set
+    - &id022 !!set
       r1: null
   - - *id002
-    - &id021 !!set
+    - &id020 !!set
       r2: null
   - - *id003
-    - &id020 !!set
+    - &id019 !!set
       r3: null
   - - *id004
-    - &id022 !!set
+    - &id021 !!set
       r4: null
 markAngle:
-- 0.323
-- -0.872
-- -3.026
-- 0.598
+- 0.031
+- 3.142
+- -1.606
+- -1.548
 markPos:
 - !!python/tuple
-  - 105.0
-  - 150.0
+  - 296.19649040513104
+  - 268.4083335227734
 - !!python/tuple
-  - 555.0
-  - 240.0
+  - 238.09398056020132
+  - 239.98862762036205
 - !!python/tuple
-  - 360.0
-  - 355.0
+  - 233.67313741982622
+  - 307.5643727660956
 - !!python/tuple
-  - 720.0
-  - 230.0
+  - 293.03874530486314
+  - 330.9316865080782
 regions:
-  *id001: *id019
-  *id003: *id020
-  *id002: *id021
-  *id004: *id022
+  *id003: *id019
+  *id002: *id020
+  *id004: *id021
+  *id001: *id022

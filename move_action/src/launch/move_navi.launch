@@ -4,8 +4,15 @@
 <!-- move_action package navigates robot without Rviz and plan the robot path with LTL planner -->
 
 	<node name="task_publisher" pkg="move_action" type="task_publisher.py" respawn="true"/>
+		<param name="urgent_task" value="0"/>
+		<param name="finish_task" value="0"/>
+		<param name="u_task" value="0"/>
+		<param name="o_task" value="0"/>
+
 	<node name="next_move_planner_server" pkg="move_action" type="plan_service.py" respawn="true"/>
 	<node name="move_base_action_server" pkg="move_action" type="move_action_service.py" respawn="true"/>
+	<node name="plan_switcher" pkg="rqt_ltl" type="plan_switch.py" respawn="true"/>
+
 <!--
 	<node name="action_client" pkg="move_action" type="state_publisher.py" respawn="false"/>
 -->

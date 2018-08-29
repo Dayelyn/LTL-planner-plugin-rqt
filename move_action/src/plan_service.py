@@ -4,7 +4,7 @@ from P_MAS_TG.ts import MotionFts, ActionModel, MotActModel
 from P_MAS_TG.planner import ltl_planner
 
 from move_action.srv import NextMove, NextMoveResponse
-from geometry_msgs.msg import PoseArray, Pose, Point, Quaternion, PoseWithCovarianceStamped
+from geometry_msgs.msg import PoseArray, Pose, PoseStamped, Point, Quaternion, PoseWithCovarianceStamped
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from std_msgs.msg import String
 
@@ -42,7 +42,7 @@ def pose_callback(pose_data):
         current_pose[0] = header.stamp
         euler_angle = euler_from_quaternion([pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z, pose.pose.orientation.w])
         # Roll pitch yaw
-        current_pose[1] = (pose.pose.position.x, pose.pose.position.x, euler_angle[2])
+        current_pose[1] = (pose.pose.position.x, pose.pose.position.y, euler_angle[2])
     return False
 
 
@@ -50,49 +50,64 @@ def next_move_plan(req):
     '''
     The function deals with the request of next_move_planner_server()
     :param req: string status
-    :return: poseseq.poses = PoseArray[], contains the sequence of planned poses
+    :return: poseseq.poses: PoseArray[], contains the sequence of planned poses
     '''
-    rospy.Subscriber('ltl_task', String, task_callback, queue_size=1, buff_size=2**24)
-    # Subscribe task_publisher to get LTL task
 
-    rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, pose_callback, queue_size=1, buff_size=2**24)
-    # Subscribe amcl to get current estimated pose as initial pose. Planning will be given based on initial pose
-    # Subscribing needs time and next sentences will run first. Hence, here needs a delay.
+    global robot_planner
+    poseseq = PoseStamped()
+    poseseq.header.frame_id = "map"
+    poseseq.header.stamp = rospy.Time.now()
 
-    rospy.sleep(1.0)
+    if req.status == 'PlanSynthesis':
+        # Synthesize motion FTS, action model and task to plan a pose sequence
+        robot_motion.set_initial(current_pose[1])
+        robot_model = MotActModel(robot_motion, robot_action)
+        robot_planner = ltl_planner(robot_model, hard_task, soft_task)
+        start = time.time()
+        robot_planner.optimal(10, 'static')
 
-    robot_motion.set_initial(current_pose[1])
-    robot_model = MotActModel(robot_motion, robot_action)
-    robot_planner = ltl_planner(robot_model, hard_task, soft_task)
-    start = time.time()
-    robot_planner.optimal(10, 'static')
-    # Synthesize motion FTS, action model and task to plan a pose sequence
+        next_move = robot_planner.run.pre_plan[0]
+        qua_angle = quaternion_from_euler(0, 0, next_move[2], 'rxyz')
+        poseseq.pose = Pose(Point(next_move[0], next_move[1], 0.000), Quaternion(qua_angle[0], qua_angle[1], qua_angle[2], qua_angle[3]))
 
-    if req.status == 'PoseQueue':
-        poseseq = PoseArray()
-        poseseq.header.frame_id = "map"
-        poseseq.header.stamp = rospy.Time.now()
+        return NextMoveResponse(poseseq.pose)
 
-        for index in range(len(robot_planner.run.pre_plan) - 2):
-            qua_angle = quaternion_from_euler(0, 0, robot_planner.run.pre_plan[index][2], 'rxyz')
-            poseseq.poses.append(Pose(Point(robot_planner.run.pre_plan[index][0], robot_planner.run.pre_plan[index][1], 0.000), Quaternion(qua_angle[0], qua_angle[1], qua_angle[2], qua_angle[3])))
-            # Here can not directly use qua_angle value cuz it is not a quaternion type but only a tuple type
-            # Data structure is given in P_MAG_TS, please read the instruction in the package
-	    print poseseq.poses
-        return NextMoveResponse(poseseq.poses)
+    elif req.status == 'FirstMove':
+        next_move = robot_planner.next_move
+        qua_angle = quaternion_from_euler(0, 0, next_move[2], 'rxyz')
+        poseseq.pose = Pose(Point(next_move[0], next_move[1], 0.000), Quaternion(qua_angle[0], qua_angle[1], qua_angle[2], qua_angle[3]))
+
+        return NextMoveResponse(poseseq.pose)
+
+    elif req.status == 'NextMove':
+        next_move = robot_planner.find_next_move()
+        qua_angle = quaternion_from_euler(0, 0, next_move[2], 'rxyz')
+        poseseq.pose = Pose(Point(next_move[0], next_move[1], 0.000), Quaternion(qua_angle[0], qua_angle[1], qua_angle[2], qua_angle[3]))
+        # Here can not directly use qua_angle value cuz it is not a quaternion type but only a tuple type
+        # Data structure is given in P_MAG_TS, please read the instruction in the package
+        return NextMoveResponse(poseseq.pose)
     else:
-        print 'No acceptable move'
+        print 'Please synthesis plan first and then navigate.'
         return None
+
 
 
 def next_move_planner_server():
     rospy.init_node('next_move_planner_server')
     rospy.Service('next_move_planner_service', NextMove, next_move_plan)
+
+    rospy.Subscriber('ltl_task', String, task_callback, queue_size=1, buff_size=2 ** 24)
+    # Subscribe task_publisher to get LTL task
+
+    rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, pose_callback, queue_size=1, buff_size=2 ** 24)
+    # Subscribe amcl to get current estimated pose as initial pose. Planning will be given based on initial pose
+    # Subscribing needs time and next sentences will run first. Hence, here needs a delay.
     rospy.spin()
 
 
 if __name__ == "__main__":
     rp = rospkg.RosPack()
+    global robot_motion, robot_action
     try:
         with open(os.path.join(rp.get_path('rqt_ltl'), 'map/', 'task.yaml'), 'r') as streamr:
             load = yaml.load(streamr)
@@ -112,7 +127,7 @@ if __name__ == "__main__":
         robot_motion.add_un_edges(edges, unit_cost=0.1)
         robot_action = ActionModel(action)
         init_pose = PoseWithCovarianceStamped()
-        current_pose = [init_pose.header.stamp, [0, 0, 1]]
+        current_pose = [init_pose.header.stamp, start]
         hard_task = ''
         soft_task = ''
 
@@ -131,7 +146,7 @@ if __name__ == "__main__":
         robot_motion.add_un_edges(edges, unit_cost=0.1)
         robot_action = ActionModel(action)
         init_pose = PoseWithCovarianceStamped()
-        current_pose = [init_pose.header.stamp, [0, 0, 1]]
+        current_pose = [init_pose.header.stamp, start]
         hard_task = ''
         soft_task = ''
 
